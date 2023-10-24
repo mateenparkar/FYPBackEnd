@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import org.fyp.api.AuthService;
 import org.fyp.cli.LoginRequest;
 import org.fyp.cli.LoginResponse;
+import org.fyp.client.FailedLoginException;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +32,7 @@ public class AuthController {
             LoginResponse loginResponse = new LoginResponse(response);
 
             return Response.ok(loginResponse).build();
-        }catch(Exception e){
+        }catch(FailedLoginException e){
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
