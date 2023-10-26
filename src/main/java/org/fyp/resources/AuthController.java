@@ -7,6 +7,7 @@ import org.fyp.cli.LoginRequest;
 import org.fyp.cli.LoginResponse;
 import org.fyp.client.FailedLoginException;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Path;

@@ -19,8 +19,8 @@ public class AuthService {
 
     public String login(LoginRequest login) throws FailedLoginException {
         try{
-            User user = authDao.getUserByEmail(login.getUsername());
-            if(user==null || isValidPassword(login.getPassword(), user.getHashedPassword())){
+            User user = authDao.getUserByEmail(login.getUsername(), login.getPassword());
+            if(user==null || !isValidPassword(login.getPassword(), user.getHashedPassword())){
                 throw new FailedLoginException();
             }
             String token = tokenService.generateToken(user);
