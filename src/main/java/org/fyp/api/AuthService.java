@@ -7,6 +7,8 @@ import org.fyp.client.FailedToGenerateTokenException;
 import org.fyp.db.AuthDao;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.sql.SQLException;
+
 public class AuthService {
     TokenService tokenService;
     private AuthDao authDao;
@@ -27,7 +29,7 @@ public class AuthService {
             if(token!=null){
                 return token;
             }
-        }catch(Exception e){
+        }catch(SQLException e){
             throw new FailedToGenerateTokenException();
         }
         throw new FailedLoginException();
