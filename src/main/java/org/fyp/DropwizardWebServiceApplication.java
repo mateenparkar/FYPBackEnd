@@ -7,12 +7,15 @@ import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.fyp.api.AuthService;
+import org.fyp.api.AuthorService;
 import org.fyp.api.BookService;
 import org.fyp.api.TokenService;
 import org.fyp.db.AuthDao;
+import org.fyp.db.AuthorDao;
 import org.fyp.db.BookDao;
 import org.fyp.db.DatabaseConnector;
 import org.fyp.resources.AuthController;
+import org.fyp.resources.AuthorController;
 import org.fyp.resources.BooksController;
 
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
@@ -44,6 +47,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
 
         environment.jersey().register(new BooksController(new BookService(new BookDao(new DatabaseConnector()))));
 
+        environment.jersey().register(new AuthorController(new AuthorService(new AuthorDao(new DatabaseConnector()))));
     }
 
 }
