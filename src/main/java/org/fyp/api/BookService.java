@@ -23,4 +23,13 @@ public class BookService {
 
     }
 
+    public Books getBookById(int id) throws FailedToGetBooksException {
+        try{
+            return bookDao.getBookById(id);
+        }catch(SQLException e){
+            throw new FailedToGetBooksException();
+        }
+
+    }
+
 }

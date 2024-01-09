@@ -39,4 +39,24 @@ public class BookDao {
         }
         return books;
     }
+
+    public Books getBookById(int id) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+
+        Statement st = c.createStatement();
+
+        ResultSet rs = st.executeQuery("SELECT * FROM Books WHERE book_id = " + id);
+
+        rs.next();
+        Books book = new Books(
+                rs.getInt("book_id"),
+                rs.getString("title"),
+                rs.getInt("author"),
+                rs.getDate("published_date"),
+                rs.getInt("genre"),
+                rs.getString("description"),
+                rs.getString("cover_image_url")
+        );
+        return book;
+    }
 }
