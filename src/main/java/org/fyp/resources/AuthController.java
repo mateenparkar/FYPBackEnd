@@ -1,15 +1,20 @@
 package org.fyp.resources;
 
 
-import io.swagger.annotations.Api;
+import io.dropwizard.auth.Auth;
+import io.swagger.annotations.*;
 import org.fyp.api.AuthService;
 import org.fyp.cli.LoginRequest;
 import org.fyp.cli.LoginResponse;
 import org.fyp.cli.RegisterRequest;
+import org.fyp.cli.User;
 import org.fyp.client.FailedLoginException;
 import org.fyp.client.FailedToRegisterException;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,6 +23,17 @@ import java.sql.SQLException;
 
 @Api("Authentication APi")
 @Path("/api")
+@SwaggerDefinition(
+        securityDefinition = @SecurityDefinition(
+                apiKeyAuthDefinitions = {
+                        @ApiKeyAuthDefinition(
+                                key = HttpHeaders.AUTHORIZATION,
+                                name = HttpHeaders.AUTHORIZATION,
+                                in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER
+                        )
+                }
+        )
+)
 public class AuthController {
     private AuthService authService;
     public AuthController(AuthService authService){
@@ -54,5 +70,16 @@ public class AuthController {
         }catch(SQLException e){
             return Response.serverError().build();
         }
+    }
+
+    @GET
+    @Path("/whoami")
+    @PermitAll
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Returns the user that is logged in", response = User.class, authorizations = {
+            @Authorization(value = HttpHeaders.AUTHORIZATION)
+    })
+    public Response whoami(@Auth @ApiParam(hidden = true) User user) {
+        return Response.ok().entity(new User(user.getUserId(), user.getUsername(), user.getEmail(), user.getHashedPassword())).build();
     }
 }

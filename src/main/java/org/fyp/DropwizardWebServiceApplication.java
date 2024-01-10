@@ -2,16 +2,24 @@ package org.fyp;
 
 import ch.qos.logback.core.subst.Token;
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.Authorizer;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.fyp.api.*;
+import org.fyp.auth.JWTAuthenticator;
+import org.fyp.auth.JWTAuthorizer;
+import org.fyp.auth.JWTFilter;
+import org.fyp.cli.User;
 import org.fyp.db.*;
 import org.fyp.resources.AuthController;
 import org.fyp.resources.AuthorController;
 import org.fyp.resources.BooksController;
 import org.fyp.resources.GenreController;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
 
@@ -37,6 +45,13 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
     @Override
     public void run(final DropwizardWebServiceConfiguration configuration,
                     final Environment environment) {
+        JWTAuthenticator jwtAuthenticator = new JWTAuthenticator(new TokenService(new AuthDao(new DatabaseConnector())));
+
+        environment.jersey().register(new AuthDynamicFeature(new JWTFilter.Builder().setAuthenticator(jwtAuthenticator).
+                setAuthorizer(new JWTAuthorizer()).setPrefix("Bearer").buildAuthFilter()));
+        environment.jersey().register(RolesAllowedDynamicFeature.class);
+        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
+
         environment.jersey().register(new AuthController(new AuthService(new AuthDao(new DatabaseConnector()),
                 new TokenService(new AuthDao(new DatabaseConnector())))));
 

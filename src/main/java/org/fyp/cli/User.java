@@ -1,6 +1,8 @@
 package org.fyp.cli;
 
-public class User {
+import java.security.Principal;
+
+public class User implements Principal {
     public User(int userId, String username, String email, String hashedPassword) {
         this.userId = userId;
         this.username = username;
@@ -30,6 +32,11 @@ public class User {
     private final String email;
 
     private String hashedPassword;
+
+    @Override
+    public String getName(){
+        return getEmail();
+    }
 
 
 }
