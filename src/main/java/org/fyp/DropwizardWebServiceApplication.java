@@ -15,10 +15,7 @@ import org.fyp.auth.JWTAuthorizer;
 import org.fyp.auth.JWTFilter;
 import org.fyp.cli.User;
 import org.fyp.db.*;
-import org.fyp.resources.AuthController;
-import org.fyp.resources.AuthorController;
-import org.fyp.resources.BooksController;
-import org.fyp.resources.GenreController;
+import org.fyp.resources.*;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
@@ -58,6 +55,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(new BooksController(new BookService(new BookDao(new DatabaseConnector()))));
         environment.jersey().register(new AuthorController(new AuthorService(new AuthorDao(new DatabaseConnector()))));
         environment.jersey().register(new GenreController(new GenreService(new GenreDao(new DatabaseConnector()))));
+        environment.jersey().register(new UserBooksController(new UserBooksService(new UserBooksDao(new DatabaseConnector()))));
     }
 
 }
