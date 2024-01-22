@@ -1,8 +1,11 @@
 package org.fyp.db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.fyp.cli.Books;
+import org.fyp.cli.UserBooks;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserBooksDao {
     private DatabaseConnector databaseConnector;
@@ -21,5 +24,29 @@ public class UserBooksDao {
         ps.setInt(2, bookId);
 
         ps.executeUpdate();
+    }
+
+    public List<UserBooks> getUserBooks(int userId) throws SQLException {
+        List<UserBooks> userBooks = new ArrayList<>();
+
+        Connection c = databaseConnector.getConnection();
+
+        Statement st = c.createStatement();
+
+        ResultSet rs = st.executeQuery("SELECT * FROM UserBooks WHERE user_id = " + userId);
+
+
+        while(rs.next()) {
+            UserBooks userBook = new UserBooks(
+                    rs.getInt("user_id"),
+                    rs.getInt("book_id"),
+                    rs.getString("read_status"),
+                    rs.getInt("rating"),
+                    rs.getDate("date_read")
+            );
+            userBooks.add(userBook);
+        }
+
+        return userBooks;
     }
 }
