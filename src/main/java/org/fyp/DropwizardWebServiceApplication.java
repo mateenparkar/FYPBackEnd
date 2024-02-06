@@ -57,6 +57,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(new GenreController(new GenreService(new GenreDao(new DatabaseConnector()))));
         environment.jersey().register(new UserBooksController(new UserBooksService(new UserBooksDao(new DatabaseConnector()))));
         environment.jersey().register(new UserBooksController(new UserBooksService(new UserBooksDao(new DatabaseConnector()))));
+        environment.jersey().register(new CommentController(new CommentService(new CommentDao(new DatabaseConnector()))));
     }
 
 }
