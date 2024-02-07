@@ -1,9 +1,11 @@
 package org.fyp.db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Date;
+import org.fyp.cli.Books;
+import org.fyp.cli.Comment;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommentDao {
     private DatabaseConnector databaseConnector;
@@ -20,7 +22,23 @@ public class CommentDao {
         ps.setDate(4, date_posted);
 
         ps.executeUpdate();
+    }
 
+    public List<Comment> getCommentsByBook(int id) throws SQLException{
+        List<Comment> comments = new ArrayList<>();
+        Connection c = databaseConnector.getConnection();
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM Comments WHERE book_id = " + id);
 
+        while(rs.next()){
+            Comment comment = new Comment(
+                    rs.getInt("user_id"),
+                    rs.getInt("book_id"),
+                    rs.getString("comment_text"),
+                    rs.getDate("date_posted")
+            );
+            comments.add(comment);
+        }
+        return comments;
     }
 }
