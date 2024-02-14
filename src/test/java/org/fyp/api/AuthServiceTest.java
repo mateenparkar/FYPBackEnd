@@ -1,7 +1,6 @@
 package org.fyp.api;
 
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.fyp.cli.AuthRole;
 import org.fyp.cli.LoginRequest;
 import org.fyp.cli.RegisterRequest;
 import org.fyp.cli.User;
@@ -11,7 +10,6 @@ import org.fyp.client.FailedToRegisterException;
 import org.fyp.db.AuthDao;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import io.jsonwebtoken.security.Keys;
