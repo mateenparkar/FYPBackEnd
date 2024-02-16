@@ -47,16 +47,19 @@ public class BookDao {
 
         ResultSet rs = st.executeQuery("SELECT * FROM Books WHERE book_id = " + id);
 
-        rs.next();
-        Books book = new Books(
-                rs.getInt("book_id"),
-                rs.getString("title"),
-                rs.getInt("author"),
-                rs.getDate("published_date"),
-                rs.getInt("genre"),
-                rs.getString("description"),
-                rs.getString("cover_image_url")
-        );
-        return book;
+        if(rs.next()){
+            Books book = new Books(
+                    rs.getInt("book_id"),
+                    rs.getString("title"),
+                    rs.getInt("author"),
+                    rs.getDate("published_date"),
+                    rs.getInt("genre"),
+                    rs.getString("description"),
+                    rs.getString("cover_image_url")
+            );
+            return book;
+        }
+        return null;
     }
+
 }
