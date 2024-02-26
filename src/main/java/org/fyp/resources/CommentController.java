@@ -2,6 +2,7 @@ package org.fyp.resources;
 
 import io.swagger.annotations.Api;
 import org.fyp.api.CommentService;
+import org.fyp.cli.Comment;
 import org.fyp.cli.CommentRequest;
 import org.fyp.client.FailedToAddCommentException;
 import org.fyp.client.FailedToGetCommentsException;
@@ -10,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
+import java.util.List;
 
 @Api("Comments API")
 @Path("/api")
@@ -39,6 +41,9 @@ public class CommentController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCommentsByBook(@PathParam("id") int id){
         try{
+            List<Comment> comments = commentService.getCommentsByBook(id);
+
+
             return Response.ok(commentService.getCommentsByBook(id)).build();
         }catch(FailedToGetCommentsException e){
             return Response.serverError().build();
