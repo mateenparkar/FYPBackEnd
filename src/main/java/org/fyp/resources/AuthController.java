@@ -53,6 +53,8 @@ public class AuthController {
             return Response.ok(loginResponse).build();
         }catch(FailedLoginException e){
             return Response.status(Response.Status.UNAUTHORIZED).build();
+        }catch(SQLException e){
+            return Response.serverError().build();
         }
     }
 
