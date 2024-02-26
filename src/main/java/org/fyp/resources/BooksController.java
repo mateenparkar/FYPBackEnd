@@ -2,6 +2,7 @@ package org.fyp.resources;
 
 import io.swagger.annotations.Api;
 import org.fyp.api.BookService;
+import org.fyp.cli.Books;
 import org.fyp.client.FailedToGetBooksException;
 
 import javax.ws.rs.GET;
@@ -38,10 +39,15 @@ public class BooksController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBookById(@PathParam("id") int id){
         try{
-            return Response.ok(bookService.getBookById(id)).build();
+            Books book = bookService.getBookById(id);
+
+            if (book != null) {
+                return Response.ok(book).build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
         }catch(FailedToGetBooksException e){
             return Response.serverError().build();
-
         }
     }
 
