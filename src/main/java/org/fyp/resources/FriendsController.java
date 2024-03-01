@@ -4,10 +4,9 @@ import io.swagger.annotations.Api;
 import org.fyp.api.FriendsService;
 import org.fyp.cli.FriendRequest;
 import org.fyp.client.FailedToAddFriendException;
+import org.fyp.client.FailedToGetFriendsException;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
@@ -30,6 +29,17 @@ public class FriendsController {
         }catch(FailedToAddFriendException e){
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }catch(SQLException e){
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/getFriends/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFriends(@PathParam("id") int user_id){
+        try{
+            return Response.ok(friendsService.getFriends(user_id)).build();
+        }catch(SQLException | FailedToGetFriendsException e){
             return Response.serverError().build();
         }
     }
