@@ -10,6 +10,8 @@ public class User implements Principal {
         this.hashedPassword = hashedPassword;
     }
 
+
+
     public int getUserId() {
         return userId;
     }
