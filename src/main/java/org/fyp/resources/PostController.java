@@ -3,12 +3,10 @@ package org.fyp.resources;
 import io.swagger.annotations.Api;
 import org.fyp.api.PostService;
 import org.fyp.client.FailedToAddPostException;
+import org.fyp.client.FailedToGetPostsException;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
@@ -39,6 +37,19 @@ public class PostController {
         } catch (FailedToAddPostException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         } catch (SQLException e) {
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/getPosts")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPosts(){
+        try{
+            return Response.ok(postService.getAllPosts()).build();
+        }catch(FailedToGetPostsException e){
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }catch (SQLException e){
             return Response.serverError().build();
         }
     }

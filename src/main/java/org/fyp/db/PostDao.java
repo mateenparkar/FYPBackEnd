@@ -1,13 +1,13 @@
 package org.fyp.db;
 
 import org.apache.commons.io.IOUtils;
+import org.fyp.cli.Post;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostDao {
     private DatabaseConnector databaseConnector;
@@ -34,4 +34,25 @@ public class PostDao {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Post> getAllPosts() throws SQLException {
+        List<Post> posts = new ArrayList<>();
+        Connection c = databaseConnector.getConnection();
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM Posts");
+
+        while(rs.next()){
+            Post post = new Post(
+                    rs.getInt("user_id"),
+                    rs.getString("title"),
+                    rs.getString("content"),
+                    rs.getDate("date_posted"),
+                    rs.getBytes("post_image_url")
+            );
+            posts.add(post);
+        }
+        return posts;
+    }
+
+
 }
