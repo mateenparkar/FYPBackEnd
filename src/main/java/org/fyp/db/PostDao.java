@@ -2,7 +2,9 @@ package org.fyp.db;
 
 import org.apache.commons.io.IOUtils;
 import org.fyp.cli.Post;
-
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -16,9 +18,19 @@ public class PostDao {
         this.databaseConnector = databaseConnector;
     }
 
+    private byte[] compressImage(InputStream imageInputStream) throws IOException {
+        BufferedImage image = ImageIO.read(imageInputStream);
+
+        float quality = 0.5f;
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", byteArrayOutputStream);
+
+        return byteArrayOutputStream.toByteArray();
+    }
     public void addPost(int user_id, String content, String title, InputStream imageInputStream, Date date_posted) throws SQLException {
         try (Connection c = databaseConnector.getConnection()) {
-            byte[] imageBytes = IOUtils.toByteArray(imageInputStream);
+            byte[] imageBytes = compressImage(imageInputStream);
 
             String query = "INSERT INTO Posts (user_id, post_image_url, title, content, date_posted) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement ps = c.prepareStatement(query)) {
