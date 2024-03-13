@@ -16,6 +16,7 @@ import org.fyp.auth.JWTFilter;
 import org.fyp.cli.User;
 import org.fyp.db.*;
 import org.fyp.resources.*;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
@@ -60,6 +61,9 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(new CommentController(new CommentService(new CommentDao(new DatabaseConnector()))));
         environment.jersey().register(new FriendsController(new FriendsService(new FriendsDao(new DatabaseConnector()))));
         environment.jersey().register(new UserController(new UserService(new UserDao(new DatabaseConnector()))));
+        environment.jersey().register(MultiPartFeature.class);
+
+        environment.jersey().register(new PostController(new PostService(new PostDao(new DatabaseConnector()))));
     }
 
 }
