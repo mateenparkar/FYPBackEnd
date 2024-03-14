@@ -18,19 +18,16 @@ public class PostDao {
         this.databaseConnector = databaseConnector;
     }
 
-    private byte[] compressImage(InputStream imageInputStream) throws IOException {
-        BufferedImage image = ImageIO.read(imageInputStream);
-
-        float quality = 0.5f;
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(image, "jpg", byteArrayOutputStream);
-
-        return byteArrayOutputStream.toByteArray();
-    }
     public void addPost(int user_id, String content, String title, InputStream imageInputStream, Date date_posted) throws SQLException {
         try (Connection c = databaseConnector.getConnection()) {
-            byte[] imageBytes = compressImage(imageInputStream);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = imageInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            byte[] imageBytes = outputStream.toByteArray();
+
 
             String query = "INSERT INTO Posts (user_id, post_image_url, title, content, date_posted) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement ps = c.prepareStatement(query)) {

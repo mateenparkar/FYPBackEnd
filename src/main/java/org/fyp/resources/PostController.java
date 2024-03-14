@@ -1,6 +1,7 @@
 package org.fyp.resources;
 
 import io.swagger.annotations.Api;
+import javassist.bytecode.SourceFileAttribute;
 import org.fyp.api.PostService;
 import org.fyp.client.FailedToAddPostException;
 import org.fyp.client.FailedToGetPostsException;
@@ -32,6 +33,7 @@ public class PostController {
             @FormDataParam("content") String content,
             @FormDataParam("date_posted") Date date_posted) {
         try {
+            System.out.println(user_id + " " + content + " " + title + " " + imageInputStream + " " + date_posted);
             postService.addPost(user_id, content, title, imageInputStream, date_posted);
             return Response.status(Response.Status.CREATED).build();
         } catch (FailedToAddPostException e) {
