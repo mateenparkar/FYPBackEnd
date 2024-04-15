@@ -3,6 +3,7 @@ package org.fyp.resources;
 import org.fyp.api.UserBooksService;
 import org.fyp.cli.UserBooks;
 import org.fyp.cli.UserBooksRequest;
+import org.fyp.client.BookAlreadyLikedException;
 import org.fyp.client.FailedToAddUserBooksException;
 import org.fyp.client.FailedToGetUserBooksException;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class UserBooksControllerTest {
     UserBooksController userBooksController = new UserBooksController(userBooksServiceMock);
 
     @Test
-    public void addBookToUser_ShouldReturn200_WhenBookIsAdded() throws SQLException, FailedToAddUserBooksException {
+    public void addBookToUser_ShouldReturn200_WhenBookIsAdded() throws SQLException, FailedToAddUserBooksException, BookAlreadyLikedException {
         UserBooksRequest userBooksRequest = new UserBooksRequest(1, 1);
         Mockito.doNothing().when(userBooksServiceMock).addBookToUser(userBooksRequest);
 
@@ -31,7 +32,7 @@ public class UserBooksControllerTest {
     }
 
     @Test
-    public void addBookToUser_ShouldReturn400_WhenFailedToAddUserBooksExceptionIsThrown() throws SQLException, FailedToAddUserBooksException {
+    public void addBookToUser_ShouldReturn400_WhenFailedToAddUserBooksExceptionIsThrown() throws SQLException, FailedToAddUserBooksException, BookAlreadyLikedException {
         UserBooksRequest userBooksRequest = new UserBooksRequest(1, 1);
         Mockito.doThrow(new FailedToAddUserBooksException()).when(userBooksServiceMock).addBookToUser(userBooksRequest);
 

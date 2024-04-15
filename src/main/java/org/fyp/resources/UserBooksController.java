@@ -3,6 +3,7 @@ package org.fyp.resources;
 import io.swagger.annotations.Api;
 import org.fyp.api.UserBooksService;
 import org.fyp.cli.UserBooksRequest;
+import org.fyp.client.BookAlreadyLikedException;
 import org.fyp.client.FailedToAddUserBooksException;
 import org.fyp.client.FailedToGetUserBooksException;
 
@@ -27,7 +28,7 @@ public class UserBooksController {
         try{
             userBooksService.addBookToUser(userBooksRequest);
             return Response.ok().build();
-        }catch(FailedToAddUserBooksException | SQLException e){
+        }catch(FailedToAddUserBooksException | SQLException | BookAlreadyLikedException e){
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
