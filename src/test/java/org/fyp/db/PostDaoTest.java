@@ -31,7 +31,7 @@ public class PostDaoTest {
         int userId = 1;
         String content = "content";
         String title = "title";
-        InputStream imageInputStream = new ByteArrayInputStream(new byte[]{1, 2, 3, 4}); // Example byte array
+        InputStream imageInputStream = new ByteArrayInputStream(new byte[]{1, 2, 3, 4});
         Date datePosted = new Date(System.currentTimeMillis());
 
         String preparedStatement = "INSERT INTO Posts (user_id, post_image_url, title, content, date_posted) VALUES (?, ?, ?, ?, ?)";
