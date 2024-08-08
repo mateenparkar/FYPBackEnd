@@ -4,6 +4,7 @@ import org.fyp.cli.UserBooks;
 import org.fyp.cli.UserBooksRequest;
 import org.fyp.client.BookAlreadyLikedException;
 import org.fyp.client.FailedToAddUserBooksException;
+import org.fyp.client.FailedToDeleteUserBookException;
 import org.fyp.client.FailedToGetUserBooksException;
 import org.fyp.db.UserBooksDao;
 
@@ -40,6 +41,19 @@ public class UserBooksService {
         }catch(SQLException e){
             throw new FailedToAddUserBooksException();
         }
+    }
+
+    public void deleteBookFromUser(UserBooksRequest userBooksRequest) throws SQLException, FailedToDeleteUserBookException {
+        int userId = userBooksRequest.getUserId();
+        int bookId = userBooksRequest.getBookId();
+
+        try{
+            userBooksDao.deleteBookFromUser(userId, bookId);
+        }catch(SQLException e){
+            throw new FailedToDeleteUserBookException();
+        }
+
+
     }
 
     public List<UserBooks> getUserBooks(int userId) throws SQLException, FailedToGetUserBooksException {

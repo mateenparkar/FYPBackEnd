@@ -26,6 +26,17 @@ public class UserBooksDao {
         ps.executeUpdate();
     }
 
+    public void deleteBookFromUser(int userId, int bookId) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+
+        PreparedStatement ps = c.prepareStatement("DELETE FROM UserBooks WHERE user_id = ? AND book_id = ?");
+
+        ps.setInt(1, userId);
+        ps.setInt(2, bookId);
+
+        ps.executeUpdate();
+    }
+
     public List<UserBooks> getUserBooks(int userId) throws SQLException {
         List<UserBooks> userBooks = new ArrayList<>();
 

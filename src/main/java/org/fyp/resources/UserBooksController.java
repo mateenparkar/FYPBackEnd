@@ -5,6 +5,7 @@ import org.fyp.api.UserBooksService;
 import org.fyp.cli.UserBooksRequest;
 import org.fyp.client.BookAlreadyLikedException;
 import org.fyp.client.FailedToAddUserBooksException;
+import org.fyp.client.FailedToDeleteUserBookException;
 import org.fyp.client.FailedToGetUserBooksException;
 
 import javax.ws.rs.*;
@@ -40,6 +41,18 @@ public class UserBooksController {
         try{
             return Response.ok(userBooksService.getUserBooks(userId)).build();
         }catch(FailedToGetUserBooksException | SQLException e){
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @DELETE
+    @Path("/deleteBookFromUser")
+    @Produces(MediaType.APPLICATION_JSON)
+public Response deleteBookFromUser(UserBooksRequest userBooksRequest) {
+        try{
+            userBooksService.deleteBookFromUser(userBooksRequest);
+            return Response.ok().build();
+        }catch(SQLException | FailedToDeleteUserBookException e){
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
