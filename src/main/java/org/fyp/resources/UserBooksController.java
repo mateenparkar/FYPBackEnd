@@ -48,7 +48,7 @@ public class UserBooksController {
     @DELETE
     @Path("/deleteBookFromUser")
     @Produces(MediaType.APPLICATION_JSON)
-public Response deleteBookFromUser(UserBooksRequest userBooksRequest) {
+    public Response deleteBookFromUser(UserBooksRequest userBooksRequest) {
         try{
             userBooksService.deleteBookFromUser(userBooksRequest);
             return Response.ok().build();
