@@ -64,6 +64,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(MultiPartFeature.class);
 
         environment.jersey().register(new PostController(new PostService(new PostDao(new DatabaseConnector()))));
+        environment.jersey().register(new AccountController(new AccountService(new AccountDao(new DatabaseConnector()))));
     }
 
 }
