@@ -20,7 +20,7 @@ public class AccountService {
         String hashedPassword = BCrypt.hashpw(updateRequest.getPassword(), salt);
         try {
             accountDao.updatePassword(updateRequest.getUserId(), hashedPassword);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new FailedToUpdatePasswordException();
         }
