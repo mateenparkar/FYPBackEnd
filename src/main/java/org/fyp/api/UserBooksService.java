@@ -2,10 +2,7 @@ package org.fyp.api;
 
 import org.fyp.cli.UserBooks;
 import org.fyp.cli.UserBooksRequest;
-import org.fyp.client.BookAlreadyLikedException;
-import org.fyp.client.FailedToAddUserBooksException;
-import org.fyp.client.FailedToDeleteUserBookException;
-import org.fyp.client.FailedToGetUserBooksException;
+import org.fyp.client.*;
 import org.fyp.db.UserBooksDao;
 
 import java.sql.SQLException;
@@ -62,5 +59,15 @@ public class UserBooksService {
         }catch(SQLException e){
             throw new FailedToGetUserBooksException();
         }
+    }
+
+    public void updateReadStatus(UserBooksRequest userBooksRequest) throws SQLException, FailedToUpdateReadStatusException {
+        try{
+            userBooksDao.updateReadStatus(userBooksRequest.getUserId(), userBooksRequest.getBookId(), userBooksRequest.getReadStatus(), userBooksRequest.getRating(), userBooksRequest.getDateRead());
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new FailedToUpdateReadStatusException();
+        }
+
     }
 }

@@ -3,10 +3,7 @@ package org.fyp.resources;
 import io.swagger.annotations.Api;
 import org.fyp.api.UserBooksService;
 import org.fyp.cli.UserBooksRequest;
-import org.fyp.client.BookAlreadyLikedException;
-import org.fyp.client.FailedToAddUserBooksException;
-import org.fyp.client.FailedToDeleteUserBookException;
-import org.fyp.client.FailedToGetUserBooksException;
+import org.fyp.client.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -53,6 +50,18 @@ public class UserBooksController {
             userBooksService.deleteBookFromUser(userBooksRequest);
             return Response.ok().build();
         }catch(SQLException | FailedToDeleteUserBookException e){
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @PUT
+    @Path("/updateBookForUser")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateBookForUser(UserBooksRequest userBooksRequest) {
+        try{
+            userBooksService.updateReadStatus(userBooksRequest);
+            return Response.ok().build();
+        }catch(SQLException | FailedToUpdateReadStatusException e){
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }

@@ -57,7 +57,6 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(new AuthorController(new AuthorService(new AuthorDao(new DatabaseConnector()))));
         environment.jersey().register(new GenreController(new GenreService(new GenreDao(new DatabaseConnector()))));
         environment.jersey().register(new UserBooksController(new UserBooksService(new UserBooksDao(new DatabaseConnector()))));
-        environment.jersey().register(new UserBooksController(new UserBooksService(new UserBooksDao(new DatabaseConnector()))));
         environment.jersey().register(new CommentController(new CommentService(new CommentDao(new DatabaseConnector()))));
         environment.jersey().register(new FriendsController(new FriendsService(new FriendsDao(new DatabaseConnector()))));
         environment.jersey().register(new UserController(new UserService(new UserDao(new DatabaseConnector()))));
@@ -65,6 +64,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
 
         environment.jersey().register(new PostController(new PostService(new PostDao(new DatabaseConnector()))));
         environment.jersey().register(new AccountController(new AccountService(new AccountDao(new DatabaseConnector()))));
+
     }
 
 }
