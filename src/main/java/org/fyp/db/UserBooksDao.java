@@ -60,4 +60,18 @@ public class UserBooksDao {
 
         return userBooks;
     }
+
+    public void updateReadStatus(int userId, int bookId, String readStatus, int rating, Date dateRead) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+
+        PreparedStatement ps = c.prepareStatement("UPDATE UserBooks SET read_status = ?, rating = ?, date_read = ? WHERE user_id = ? AND book_id = ?");
+
+        ps.setString(1, readStatus);
+        ps.setInt(2, rating);
+        ps.setDate(3, dateRead);
+        ps.setInt(4, userId);
+        ps.setInt(5, bookId);
+
+        ps.executeUpdate();
+    }
 }
