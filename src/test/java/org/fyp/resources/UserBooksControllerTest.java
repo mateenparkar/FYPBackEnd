@@ -6,6 +6,7 @@ import org.fyp.cli.UserBooksRequest;
 import org.fyp.client.BookAlreadyLikedException;
 import org.fyp.client.FailedToAddUserBooksException;
 import org.fyp.client.FailedToGetUserBooksException;
+import org.fyp.client.FailedToUpdateReadStatusException;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.ws.rs.core.Response;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,24 @@ public class UserBooksControllerTest {
         Mockito.when(userBooksServiceMock.getUserBooks(userId)).thenThrow(new FailedToGetUserBooksException());
 
         Response response = userBooksController.getUserBooks(userId);
+        assertEquals(400, response.getStatus());
+    }
+
+    @Test
+    public void updateBookForUser_ShouldReturn200_WhenReadStatusIsUpdated() throws SQLException, FailedToUpdateReadStatusException {
+        UserBooksRequest userBooksRequest = new UserBooksRequest(1, 1, "READ", 5, new Date(2021, 1, 1));
+        Mockito.doNothing().when(userBooksServiceMock).updateReadStatus(userBooksRequest);
+
+        Response response = userBooksController.updateBookForUser(userBooksRequest);
+        assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    public void updateBookForUser_ShouldReturn400_WhenFailedToUpdateReadStatusExceptionIsThrown() throws SQLException, FailedToUpdateReadStatusException {
+        UserBooksRequest userBooksRequest = new UserBooksRequest(1, 1, "READ", 5, new Date(2021, 1, 1));
+        Mockito.doThrow(new FailedToUpdateReadStatusException()).when(userBooksServiceMock).updateReadStatus(userBooksRequest);
+
+        Response response = userBooksController.updateBookForUser(userBooksRequest);
         assertEquals(400, response.getStatus());
     }
 }

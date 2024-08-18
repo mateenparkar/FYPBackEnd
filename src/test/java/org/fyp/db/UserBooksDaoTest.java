@@ -81,4 +81,27 @@ public class UserBooksDaoTest {
 
         assertTrue(userBooks.isEmpty());
     }
+
+    @Test
+    public void updateReadStatus_ShouldUpdateReadStatus_WhenValidBook() throws Exception {
+        int userId = 1;
+        int bookId = 1;
+        String readStatus = "read_status";
+        int rating = 1;
+        java.sql.Date dateRead = null;
+
+        String preparedStatement = "UPDATE UserBooks SET read_status = ?, rating = ?, date_read = ? WHERE user_id = ? AND book_id = ?";
+
+        DatabaseConnector.setConn(connection);
+        Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
+        Mockito.when(statement.executeUpdate()).thenReturn(1);
+
+        userBooksDao.updateReadStatus(userId, bookId, readStatus, rating, dateRead);
+
+        Mockito.verify(statement, Mockito.times(1)).setString(1, readStatus);
+        Mockito.verify(statement, Mockito.times(1)).setInt(2, rating);
+        Mockito.verify(statement, Mockito.times(1)).setDate(3, dateRead);
+        Mockito.verify(statement, Mockito.times(1)).setInt(4, userId);
+        Mockito.verify(statement, Mockito.times(1)).setInt(5, bookId);
+    }
 }
