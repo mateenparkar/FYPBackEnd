@@ -1,7 +1,9 @@
 package org.fyp.resources;
 
 import io.swagger.annotations.Api;
+import org.fyp.api.BookService;
 import org.fyp.api.UserBooksService;
+import org.fyp.cli.Books;
 import org.fyp.cli.UserBooksRequest;
 import org.fyp.client.*;
 
@@ -13,6 +15,8 @@ import java.sql.SQLException;
 @Path("/api")
 public class UserBooksController {
     private UserBooksService userBooksService;
+
+    private BookService bookService;
 
     public UserBooksController(UserBooksService userBooksService) {
         this.userBooksService = userBooksService;
@@ -65,4 +69,17 @@ public class UserBooksController {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
+
+    @GET
+    @Path("/getBookDetails/{userId}/{bookId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getBookDetails(@PathParam("userId") int userId, @PathParam("bookId") int bookId) {
+        try {
+            boolean hasRead = userBooksService.hasUserReadBook(userId, bookId);
+            return Response.ok(hasRead).build();
+        } catch (SQLException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
 }

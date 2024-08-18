@@ -68,6 +68,17 @@ public class UserBooksService {
             System.out.println(e.getMessage());
             throw new FailedToUpdateReadStatusException();
         }
-
     }
+
+    public boolean hasUserReadBook(int userId, int bookId) throws SQLException {
+        List<UserBooks> userBooks = userBooksDao.getUserBooks(userId);
+        for (UserBooks userBook : userBooks) {
+            if (userBook.getBook_id() == bookId && "Read".equalsIgnoreCase(userBook.getRead_status())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }
