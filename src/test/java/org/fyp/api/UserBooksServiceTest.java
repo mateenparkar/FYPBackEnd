@@ -4,6 +4,7 @@ import org.fyp.cli.UserBooks;
 import org.fyp.cli.UserBooksRequest;
 import org.fyp.client.FailedToAddUserBooksException;
 import org.fyp.client.FailedToGetUserBooksException;
+import org.fyp.client.FailedToUpdateReadStatusException;
 import org.fyp.db.UserBooksDao;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,5 +52,18 @@ public class UserBooksServiceTest {
         int userId = 1;
         when(userBooksDaoMock.getUserBooks(userId)).thenThrow(SQLException.class);
         assertThrows(FailedToGetUserBooksException.class, () -> userBooksService.getUserBooks(userId));
+    }
+
+    @Test
+    public void updateReadStatus_ShouldDoNothing_WhenReadStatusIsUpdated() {
+        UserBooksRequest userBooksRequest = new UserBooksRequest(1, 1, "read", 5, new java.sql.Date(2021, 1, 1));
+        assertDoesNotThrow(() -> userBooksService.updateReadStatus(userBooksRequest));
+    }
+
+    @Test
+    public void updateReadStatus_ShouldThrowException_WhenDaoThrowsException() throws SQLException {
+        UserBooksRequest userBooksRequest = new UserBooksRequest(1, 1, "read", 5, new java.sql.Date(2021, 1, 1));
+        Mockito.doThrow(new SQLException()).when(userBooksDaoMock).updateReadStatus(1,1, "read", 5, new java.sql.Date(2021, 1, 1));
+        assertThrows(FailedToUpdateReadStatusException.class, () -> userBooksService.updateReadStatus(userBooksRequest));
     }
 }
