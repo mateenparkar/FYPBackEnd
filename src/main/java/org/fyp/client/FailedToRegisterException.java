@@ -1,8 +1,12 @@
 package org.fyp.client;
 
 public class FailedToRegisterException extends Throwable {
-    @Override
-    public String getMessage() {
-        return "Failed to register";
+
+    public FailedToRegisterException() {
+        super();
+    }
+
+    public FailedToRegisterException(String message) {
+        super(message);
     }
 }

@@ -7,17 +7,21 @@ import org.fyp.client.FailedLoginException;
 import org.fyp.client.FailedToGenerateTokenException;
 import org.fyp.client.FailedToRegisterException;
 import org.fyp.db.AuthDao;
+import org.fyp.validator.RegisterValidator;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 
 public class AuthService {
-    TokenService tokenService;
     private AuthDao authDao;
+
+    RegisterValidator registerValidator;
+    TokenService tokenService;
 
     public AuthService(AuthDao authDao, TokenService tokenService) {
         this.tokenService = tokenService;
         this.authDao = authDao;
+        this.registerValidator = new RegisterValidator(authDao);
     }
 
 
@@ -43,6 +47,11 @@ public class AuthService {
 
     public void register(RegisterRequest registerRequest) throws FailedToRegisterException, SQLException {
         String salt = BCrypt.gensalt(9);
+
+        String validationError = registerValidator.validateUser(registerRequest);
+        if(!validationError.isEmpty()){
+            throw new FailedToRegisterException(validationError);
+        }
 
         String hashedPassword = BCrypt.hashpw(registerRequest.getPassword(), salt);
 
