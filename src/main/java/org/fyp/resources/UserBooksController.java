@@ -58,7 +58,7 @@ public class UserBooksController {
         }
     }
 
-    @PUT
+    @POST
     @Path("/updateBookForUser")
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBookForUser(UserBooksRequest userBooksRequest) {

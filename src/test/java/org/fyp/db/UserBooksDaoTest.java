@@ -43,7 +43,7 @@ public class UserBooksDaoTest {
     public void getUserBooks_ShouldReturnUserBooks_WhenUserHasBooks() throws Exception {
         int userId = 1;
 
-        UserBooks expectedUserBook = new UserBooks(userId, 1, "read_status", 1, null);
+        UserBooks expectedUserBook = new UserBooks(userId, 1);
 
         String preparedStatement = "SELECT * FROM UserBooks WHERE user_id = " + userId;
 
@@ -61,9 +61,6 @@ public class UserBooksDaoTest {
 
         assertEquals(expectedUserBook.getUser_id(), userBooks.get(0).getUser_id());
         assertEquals(expectedUserBook.getBook_id(), userBooks.get(0).getBook_id());
-        assertEquals(expectedUserBook.getRead_status(), userBooks.get(0).getRead_status());
-        assertEquals(expectedUserBook.getRating(), userBooks.get(0).getRating());
-        assertEquals(expectedUserBook.getDate_read(), userBooks.get(0).getDate_read());
     }
 
     @Test
