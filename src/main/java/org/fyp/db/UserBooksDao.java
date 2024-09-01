@@ -1,6 +1,7 @@
 package org.fyp.db;
 
 import org.fyp.cli.Books;
+import org.fyp.cli.ReadBooks;
 import org.fyp.cli.UserBooks;
 
 import java.sql.*;
@@ -50,10 +51,7 @@ public class UserBooksDao {
         while(rs.next()) {
             UserBooks userBook = new UserBooks(
                     rs.getInt("user_id"),
-                    rs.getInt("book_id"),
-                    rs.getString("read_status"),
-                    rs.getInt("rating"),
-                    rs.getDate("date_read")
+                    rs.getInt("book_id")
             );
             userBooks.add(userBook);
         }
@@ -64,14 +62,40 @@ public class UserBooksDao {
     public void updateReadStatus(int userId, int bookId, String readStatus, int rating, Date dateRead) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
-        PreparedStatement ps = c.prepareStatement("UPDATE UserBooks SET read_status = ?, rating = ?, date_read = ? WHERE user_id = ? AND book_id = ?");
+        PreparedStatement ps = c.prepareStatement("INSERT INTO ReadBooks VALUES (?, ?, ?, ?, ?) ");
 
-        ps.setString(1, readStatus);
-        ps.setInt(2, rating);
-        ps.setDate(3, dateRead);
-        ps.setInt(4, userId);
-        ps.setInt(5, bookId);
+        ps.setInt(1, userId);
+        ps.setInt(2, bookId);
+        ps.setString(3, readStatus);
+        ps.setInt(4, rating);
+        ps.setDate(5, dateRead);
 
         ps.executeUpdate();
     }
+
+    public List<ReadBooks> getReadBooks(int userId) throws SQLException {
+        List<ReadBooks> userBooks = new ArrayList<>();
+
+        Connection c = databaseConnector.getConnection();
+
+        Statement st = c.createStatement();
+
+        ResultSet rs = st.executeQuery("SELECT * FROM ReadBooks WHERE user_id = " + userId);
+
+
+        while(rs.next()) {
+            ReadBooks userBook = new ReadBooks(
+                    rs.getInt("user_id"),
+                    rs.getInt("book_id"),
+                    rs.getString("read_status"),
+                    rs.getInt("rating"),
+                    rs.getDate("date_read")
+
+            );
+            userBooks.add(userBook);
+        }
+
+        return userBooks;
+    }
+
 }

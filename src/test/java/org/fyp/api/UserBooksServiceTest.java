@@ -40,7 +40,7 @@ public class UserBooksServiceTest {
     @Test
     public void getUserBooks_ShouldReturnList_WhenBooksAreFound() throws SQLException, FailedToGetUserBooksException {
         List<UserBooks> mockBooksList = new ArrayList<>();
-        mockBooksList.add(new UserBooks(1, 1, "", 1, new Date()));
+        mockBooksList.add(new UserBooks(1, 1));
         int userId = 1;
         when(userBooksDaoMock.getUserBooks(1)).thenReturn(mockBooksList);
         List<UserBooks> result = userBooksService.getUserBooks(userId);

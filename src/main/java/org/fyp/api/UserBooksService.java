@@ -1,5 +1,6 @@
 package org.fyp.api;
 
+import org.fyp.cli.ReadBooks;
 import org.fyp.cli.UserBooks;
 import org.fyp.cli.UserBooksRequest;
 import org.fyp.client.*;
@@ -71,8 +72,8 @@ public class UserBooksService {
     }
 
     public boolean hasUserReadBook(int userId, int bookId) throws SQLException {
-        List<UserBooks> userBooks = userBooksDao.getUserBooks(userId);
-        for (UserBooks userBook : userBooks) {
+        List<ReadBooks> userBooks = userBooksDao.getReadBooks(userId);
+        for (ReadBooks userBook : userBooks) {
             if (userBook.getBook_id() == bookId && "Read".equalsIgnoreCase(userBook.getRead_status())) {
                 return true;
             }
