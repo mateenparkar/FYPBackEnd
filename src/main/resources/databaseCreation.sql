@@ -46,3 +46,16 @@ CREATE TABLE Comments (
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
 	FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
+
+CREATE TABLE ReadBooks (
+	user_id smallint,
+    book_id smallint,
+    read_status varchar(25),
+    rating smallint,
+    date_read Date,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+	FOREIGN KEY (book_id) REFERENCES Books(book_id)
+);
+
+
+
