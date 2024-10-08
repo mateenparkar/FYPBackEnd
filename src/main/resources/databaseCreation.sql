@@ -57,5 +57,14 @@ CREATE TABLE ReadBooks (
 	FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
 
+CREATE TABLE Posts(
+	user_id smallint,
+    post_image_url blob,
+    title varchar(255),
+    content varchar(1000),
+    date_posted Date
+);
+
+
 
 
