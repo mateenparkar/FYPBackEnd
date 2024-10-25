@@ -17,7 +17,7 @@ public class DatabaseConnector {
 
         try{
             Properties prop = new Properties();
-            prop.load(new FileInputStream("src/main/resources/db.properties"));
+            prop.load(DatabaseConnector.class.getClassLoader().getResourceAsStream("db.properties"));
 
             user = prop.getProperty("user");
             password = prop.getProperty("password");
