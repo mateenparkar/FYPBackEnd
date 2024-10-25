@@ -1,8 +1,10 @@
 package org.fyp.db;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DatabaseConnector {
     private static Connection conn;
@@ -14,10 +16,13 @@ public class DatabaseConnector {
         }
 
         try{
-            user = System.getenv("DB_USERNAME");
-            password = System.getenv("DB_PASSWORD");
-            host = System.getenv("DB_HOST");
-            name = System.getenv("DB_NAME");
+            Properties prop = new Properties();
+            prop.load(new FileInputStream("src/main/resources/db.properties"));
+
+            user = prop.getProperty("user");
+            password = prop.getProperty("password");
+            host = prop.getProperty("host");
+            name = prop.getProperty("name");
 
             if(user == null || password == null || host == null){
                 throw new Exception("Properties file must exist " +
