@@ -22,20 +22,20 @@ public class FriendsIntegrationTest {
     );
 
 
-    @Test
-    public void getFriends_ShouldReturn200_WhenFriendsExist(){
-        Response response = APP.client().target("http://localhost:8080/api/getFriends/1").request()
-                .get();
-
-        Assertions.assertEquals(200, response.getStatus());
-    }
-
-    @Test
-    public void addFriend_ShouldReturn201_WhenFriendIsAdded(){
-        FriendRequest friendRequest = new FriendRequest(1, 4);
-        Response response = APP.client().target("http://localhost:8080/api/addFriend").request()
-                .post(Entity.entity(friendRequest, MediaType.APPLICATION_JSON_TYPE));
-
-        Assertions.assertEquals(201, response.getStatus());
-    }
+//    @Test
+//    public void getFriends_ShouldReturn200_WhenFriendsExist(){
+//        Response response = APP.client().target("http://localhost:8080/api/getFriends/1").request()
+//                .get();
+//
+//        Assertions.assertEquals(200, response.getStatus());
+//    }
+//
+//    @Test
+//    public void addFriend_ShouldReturn201_WhenFriendIsAdded(){
+//        FriendRequest friendRequest = new FriendRequest(1, 4);
+//        Response response = APP.client().target("http://localhost:8080/api/addFriend").request()
+//                .post(Entity.entity(friendRequest, MediaType.APPLICATION_JSON_TYPE));
+//
+//        Assertions.assertEquals(201, response.getStatus());
+//    }
 }

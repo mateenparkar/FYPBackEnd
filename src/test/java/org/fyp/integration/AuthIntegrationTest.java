@@ -23,7 +23,7 @@ public class AuthIntegrationTest {
 
     @Test
     public void login_ShouldReturnCode200(){
-        LoginRequest loginRequest = new LoginRequest("user", "password");
+        LoginRequest loginRequest = new LoginRequest("mparkar", "Pas$word21");
 
         Response response = APP.client().target("http://localhost:8080/api/login").request()
                 .post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));

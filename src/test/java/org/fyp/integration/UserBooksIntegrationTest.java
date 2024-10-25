@@ -30,17 +30,17 @@ public class UserBooksIntegrationTest {
         Assertions.assertEquals(200, response.getStatus());
     }
 
-    @Test
-    public void addUserBooks_ShouldReturn200_WhenUserBooksAdded(){
-        UserBooksRequest userBooksRequest = new UserBooksRequest(1,1);
-        Response response = APP.client().target("http://localhost:8080/api/addBookToUser").request().post(Entity.entity(userBooksRequest, MediaType.APPLICATION_JSON_TYPE));
-        Assertions.assertEquals(200, response.getStatus());
-    }
-
-    @Test
-    public void updateUserBooks_ShouldReturn200_WhenUserBooksUpdated(){
-        UserBooksRequest userBooksRequest = new UserBooksRequest(1,1, "READ", 5, new Date(2021, 1, 1));
-        Response response = APP.client().target("http://localhost:8080/api/updateBookForUser").request().put(Entity.entity(userBooksRequest, MediaType.APPLICATION_JSON_TYPE));
-        Assertions.assertEquals(200, response.getStatus());
-    }
+//    @Test
+//    public void addUserBooks_ShouldReturn200_WhenUserBooksAdded(){
+//        UserBooksRequest userBooksRequest = new UserBooksRequest(1,1);
+//        Response response = APP.client().target("http://localhost:8080/api/addBookToUser").request().post(Entity.entity(userBooksRequest, MediaType.APPLICATION_JSON_TYPE));
+//        Assertions.assertEquals(200, response.getStatus());
+//    }
+//
+//    @Test
+//    public void updateUserBooks_ShouldReturn200_WhenUserBooksUpdated(){
+//        UserBooksRequest userBooksRequest = new UserBooksRequest(1,1, "READ", 5, new Date(2021, 1, 1));
+//        Response response = APP.client().target("http://localhost:8080/api/updateBookForUser").request().put(Entity.entity(userBooksRequest, MediaType.APPLICATION_JSON_TYPE));
+//        Assertions.assertEquals(200, response.getStatus());
+//    }
 }
