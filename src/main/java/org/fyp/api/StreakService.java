@@ -7,7 +7,9 @@ import org.fyp.db.StreakDao;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
 public class StreakService {
@@ -18,34 +20,39 @@ public class StreakService {
     }
 
     public void updateStreak(int userId, Date lastActivityDate) throws FailedToUpdateStreakException, SQLException {
-        // Get the last streak date from the database (returns LocalDate)
-        LocalDate lastStreakDate = streakDao.getLastActivityDate(userId);
-        LocalDate startOfCurrentWeek = getStartOfWeek(lastActivityDate);
+        // Get the current streak data from DAO
+        Streak currentStreakData = streakDao.getStreak(userId);
+        System.out.println("Received lastActivityDate: " + lastActivityDate);
 
-        if (lastStreakDate == null || lastStreakDate.isBefore(startOfCurrentWeek)) {
-            // New week, reset streak if necessary
-            int newStreak = (lastStreakDate == null || !lastStreakDate.isEqual(startOfCurrentWeek)) ? 1 : 0;
-            // Convert LocalDate to java.sql.Date for the database
-            Date sqlStartOfCurrentWeek = Date.valueOf(startOfCurrentWeek);
-            streakDao.updateStreak(userId, newStreak, sqlStartOfCurrentWeek);
-        } else if (lastStreakDate.isEqual(startOfCurrentWeek)) {
-            // User has already read a book this week, do nothing
-            return;
+        // Extract the last streak date and current streak from the retrieved data
+        LocalDate lastStreakDate = null;
+        if (currentStreakData != null && currentStreakData.getLastActivityDate() != null) {
+            lastStreakDate = currentStreakData.getLastActivityDate().toLocalDate();
+        }
+        int currentStreak = currentStreakData != null ? currentStreakData.getCurrentStreak() : 0;
+
+        // Convert the incoming `lastActivityDate` to LocalDate for comparison
+        LocalDate activityDate = lastActivityDate.toLocalDate();
+
+        // Calculate the start of the week for both dates
+        LocalDate lastStreakWeek = lastStreakDate != null ? lastStreakDate.with(DayOfWeek.MONDAY) : null;
+        LocalDate currentWeek = activityDate.with(DayOfWeek.MONDAY);
+
+        if (lastStreakDate == null || lastStreakWeek == null || ChronoUnit.WEEKS.between(lastStreakWeek, currentWeek) > 1) {
+            // Reset streak if the gap is more than one week or there is no streak
+            streakDao.updateStreak(userId, 1, lastActivityDate);
+        } else if (ChronoUnit.WEEKS.between(lastStreakWeek, currentWeek) == 1) {
+            // Increment streak if activity happens in the following week
+            streakDao.updateStreak(userId, currentStreak + 1, lastActivityDate);
         } else {
-            // If the streak is broken (i.e., lastStreakDate is older than start of the current week)
-            streakDao.resetStreak(userId);
+            // Do nothing if activity happens in the same week
+            return;
         }
     }
 
-    private LocalDate getStartOfWeek(Date date) {
-        // Convert java.sql.Date to LocalDate
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        // Set the calendar to the first day of the week (Monday)
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        LocalDate startOfWeek = calendar.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-        return startOfWeek;
-    }
+
+
+
 
     public void resetStreak(int userId) throws SQLException, FailedToUpdateStreakException {
         try {
