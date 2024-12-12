@@ -67,6 +67,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(new LeaderboardController(new LeaderboardService(new LeaderboardDao(new DatabaseConnector()))));
         environment.jersey().register(new CORSFilter());
         environment.jersey().register(new StreakController(new StreakService(new StreakDao(new DatabaseConnector()))));
+        environment.jersey().register(new GroqCloudController(new GroqCloudService(null)));
     }
 
 }
