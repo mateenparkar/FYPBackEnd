@@ -40,7 +40,7 @@ public class GroqCloudService {
     }
 
     public List<String> generateQuestions(String bookName) throws Exception {
-        String prompt = "Generate 3 questions about the book \"" + bookName + "\".";
+        String prompt = "Generate 3 questions about the book \"" + bookName + "\" + with 3 answers A), B) and C).";
 
         Map<String, Object> payload = new HashMap<>();
         payload.put("model", "llama3-8b-8192");
