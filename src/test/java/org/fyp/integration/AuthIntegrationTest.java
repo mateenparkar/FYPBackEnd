@@ -25,7 +25,7 @@ public class AuthIntegrationTest {
     public void login_ShouldReturnCode200(){
         LoginRequest loginRequest = new LoginRequest("mparkar", "Pas$word21");
 
-        Response response = APP.client().target("http://localhost:8080/api/login").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/login").request()
                 .post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));
 
         Assertions.assertEquals(200, response.getStatus());
@@ -35,7 +35,7 @@ public class AuthIntegrationTest {
     public void login_ShouldReturn401(){
         LoginRequest loginRequest = new LoginRequest("user", "wrongpassword");
 
-        Response response = APP.client().target("http://localhost:8080/api/login").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/login").request()
                 .post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));
 
         Assertions.assertEquals(401, response.getStatus());

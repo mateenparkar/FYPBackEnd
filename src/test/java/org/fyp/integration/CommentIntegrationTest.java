@@ -24,7 +24,7 @@ public class CommentIntegrationTest {
 
     @Test
     public void getCommentsByBook_ShouldReturn200_WhenBookExists(){
-        Response response = APP.client().target("http://localhost:8080/api/comments/1").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/comments/1").request()
                 .get();
 
         Assertions.assertEquals(200, response.getStatus());
@@ -33,7 +33,7 @@ public class CommentIntegrationTest {
     @Test
     public void addComment_ShouldReturn201_WhenCommentIsAdded(){
         CommentRequest commentRequest = new CommentRequest(1, 1, "This is a test comment", new Date(1));
-        Response response = APP.client().target("http://localhost:8080/api/comment").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/comment").request()
                 .post(Entity.entity(commentRequest, MediaType.APPLICATION_JSON_TYPE));
 
         Assertions.assertEquals(201, response.getStatus());

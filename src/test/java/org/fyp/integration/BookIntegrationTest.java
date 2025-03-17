@@ -21,21 +21,21 @@ public class BookIntegrationTest {
 
     @Test
     public void getAllBooks_ShouldReturn200_WhenBooksExist(){
-        Response response = APP.client().target("http://localhost:8080/api/books").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/books").request()
                 .get();
         Assertions.assertEquals(200, response.getStatus());
     }
 
     @Test
     public void getBookById_ShouldReturn200_WhenBookExists(){
-        Response response = APP.client().target("http://localhost:8080/api/books/1").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/books/1").request()
                 .get();
         Assertions.assertEquals(200, response.getStatus());
     }
 
     @Test
     public void getBookById_ShouldReturn500_WhenBookDoesNotExist(){
-        Response response = APP.client().target("http://localhost:8080/api/books/999").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/books/999").request()
                 .get();
         Assertions.assertEquals(404, response.getStatus());
     }

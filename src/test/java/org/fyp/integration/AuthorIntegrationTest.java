@@ -20,7 +20,7 @@ public class AuthorIntegrationTest {
 
     @Test
     public void getAuthorById_ShouldReturn200_WhenAuthorExists(){
-        Response response = APP.client().target("http://localhost:8080/api/author/1").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/author/1").request()
                 .get();
 
         Assertions.assertEquals(200, response.getStatus());
@@ -28,7 +28,7 @@ public class AuthorIntegrationTest {
 
     @Test
     public void getAuthorById_ShouldReturn404_WhenAuthorDoesNotExist(){
-        Response response = APP.client().target("http://localhost:8080/api/author/999").request()
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/author/999").request()
                 .get();
 
         Assertions.assertEquals(500, response.getStatus());

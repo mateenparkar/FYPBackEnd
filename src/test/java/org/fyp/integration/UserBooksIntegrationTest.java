@@ -25,22 +25,22 @@ public class UserBooksIntegrationTest {
 
     @Test
     public void getUserBooks_ShouldReturn200_WhenUserBooksExists(){
-        Response response = APP.client().target("http://localhost:8080/api/getUserBooks/1").request().get();
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/getUserBooks/1").request().get();
 
         Assertions.assertEquals(200, response.getStatus());
     }
 
-//    @Test
-//    public void addUserBooks_ShouldReturn200_WhenUserBooksAdded(){
-//        UserBooksRequest userBooksRequest = new UserBooksRequest(1,1);
-//        Response response = APP.client().target("http://localhost:8080/api/addBookToUser").request().post(Entity.entity(userBooksRequest, MediaType.APPLICATION_JSON_TYPE));
-//        Assertions.assertEquals(200, response.getStatus());
-//    }
-//
-//    @Test
-//    public void updateUserBooks_ShouldReturn200_WhenUserBooksUpdated(){
-//        UserBooksRequest userBooksRequest = new UserBooksRequest(1,1, "READ", 5, new Date(2021, 1, 1));
-//        Response response = APP.client().target("http://localhost:8080/api/updateBookForUser").request().put(Entity.entity(userBooksRequest, MediaType.APPLICATION_JSON_TYPE));
-//        Assertions.assertEquals(200, response.getStatus());
-//    }
+    @Test
+    public void addUserBooks_ShouldReturn200_WhenUserBooksAdded(){
+        UserBooksRequest userBooksRequest = new UserBooksRequest(6,1);
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/addBookToUser").request().post(Entity.entity(userBooksRequest, MediaType.APPLICATION_JSON_TYPE));
+        Assertions.assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    public void updateUserBooks_ShouldReturn200_WhenUserBooksUpdated(){
+        UserBooksRequest userBooksRequest = new UserBooksRequest(1,1, "READ", 5, new Date(2021, 1, 1));
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/updateBookForUser").request().post(Entity.entity(userBooksRequest, MediaType.APPLICATION_JSON_TYPE));
+        Assertions.assertEquals(200, response.getStatus());
+    }
 }

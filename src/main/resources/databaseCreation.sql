@@ -65,5 +65,11 @@ CREATE TABLE Posts(
     date_posted Date
 );
 
+CREATE TABLE streaks(
+	user_id smallint PRIMARY KEY,
+    current_streak int,
+    last_activity_date date,
+	FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
 
 

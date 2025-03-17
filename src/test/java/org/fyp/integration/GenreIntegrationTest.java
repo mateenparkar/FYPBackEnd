@@ -20,13 +20,13 @@ public class GenreIntegrationTest {
 
     @Test
     public void getGenreById_ShouldReturn200_WhenGenreExists() {
-        Response response = APP.client().target("http://localhost:8080/api/genre/1").request().get();
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/genre/1").request().get();
         Assertions.assertEquals(200, response.getStatus());
     }
 
     @Test
     public void getGenreById_ShouldReturn500_WhenGenreDoesNotExist() {
-        Response response = APP.client().target("http://localhost:8080/api/genre/100").request().get();
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/genre/100").request().get();
         Assertions.assertEquals(500, response.getStatus());
     }
 }

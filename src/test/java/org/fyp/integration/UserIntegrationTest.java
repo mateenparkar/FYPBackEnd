@@ -20,13 +20,13 @@ public class UserIntegrationTest {
 
     @Test
     public void getUserById_ShouldReturn200_WhenUserExists() {
-        Response response = APP.client().target("http://localhost:8080/api/user/1").request().get();
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/user/1").request().get();
         Assertions.assertEquals(200, response.getStatus());
     }
 
     @Test
     public void getUserById_ShouldReturn500_WhenUserDoesNotExist() {
-        Response response = APP.client().target("http://localhost:8080/api/user/100").request().get();
+        Response response = APP.client().target("https://fyp.mateenparkar.xyz/api/user/100").request().get();
         Assertions.assertEquals(500, response.getStatus());
     }
 }
